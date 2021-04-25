@@ -72,7 +72,8 @@ def handle_dialog(req, res):
                 "Не хочу.",
                 "Не буду.",
                 "Отстань!",
-            ]
+            ],
+            'buying':['слон','кролик']
         }
         # Заполняем текст ответа
         res['response']['text'] = 'Привет! Купи слона!'
@@ -97,23 +98,13 @@ def handle_dialog(req, res):
     ]:
         if i in req['request']['original_utterance'].lower() and 'не' not in req['request']['original_utterance'].lower():
             flag=False
-            res['response']['text'] = 'Слона можно найти на Яндекс.Маркете!'
-            res['response']['end_session'] = True
+            res['response']['text'] = f'{req["session"]["buying"].pop(0)}а можно найти на Яндекс.Маркете!'
+            res['response']['end_session'] = bool(len(req["session"]["buying"]))
             return
-    if req['request']['original_utterance'].lower() in [
-        'ладно',
-        'куплю',
-        'покупаю',
-        'хорошо'
-    ]:
-        # Пользователь согласился, прощаемся.
-        res['response']['text'] = 'Слона можно найти на Яндекс.Маркете!'
-        res['response']['end_session'] = True
-        return
 
     # Если нет, то убеждаем его купить слона!
     res['response']['text'] = \
-        f"Все говорят '{req['request']['original_utterance']}', а ты купи слона!"
+        f"Все говорят '{req['request']['original_utterance']}', а ты купи {req['session']['buying'][0]}а!"
     res['response']['buttons'] = get_suggests(user_id)
 
 
@@ -136,7 +127,7 @@ def get_suggests(user_id):
     if len(suggests) < 2:
         suggests.append({
             "title": "Ладно",
-            "url": "https://market.yandex.ru/search?text=слон",
+            "url": f"https://market.yandex.ru/search?text={session['buying'][0]}",
             "hide": True
         })
 
