@@ -104,7 +104,7 @@ def handle_dialog(req, res):
 
     # Если нет, то убеждаем его купить слона!
     res['response']['text'] = \
-        f"Все говорят '{req['request']['original_utterance']}', а ты купи {req['session']['buying'][0]}а!"
+        f"Все говорят '{req['request']['original_utterance']}', а ты купи {sessionStorage[user_id]['buying'][0]}а!"
     res['response']['buttons'] = get_suggests(user_id)
 
 
