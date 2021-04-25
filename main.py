@@ -73,7 +73,7 @@ def handle_dialog(req, res):
                 "Не буду.",
                 "Отстань!",
             ],
-            'buying':['слон','кролик']
+            'buying': ['слон', 'кролик']
         }
         # Заполняем текст ответа
         res['response']['text'] = 'Привет! Купи слона!'
@@ -96,10 +96,12 @@ def handle_dialog(req, res):
         'покупаю',
         'хорошо'
     ]:
-        if i in req['request']['original_utterance'].lower() and 'не' not in req['request']['original_utterance'].lower():
-            flag=False
+        if i in req['request']['original_utterance'].lower() and 'не' not in req['request'][
+            'original_utterance'].lower():
+            flag = False
             res['response']['text'] = f'{sessionStorage[user_id]["buying"].pop(0)}а можно найти на Яндекс.Маркете!'
-            res['response']['end_session'] = bool(len(sessionStorage[user_id]["buying"]))
+            res['response']['text'] += f'купи {sessionStorage[user_id]["buying"][0]}'
+            res['response']['end_session'] = not (len(sessionStorage[user_id]["buying"]))
             return
 
     # Если нет, то убеждаем его купить слона!
