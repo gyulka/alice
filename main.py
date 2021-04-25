@@ -100,8 +100,16 @@ def handle_dialog(req, res):
             'original_utterance'].lower():
             flag = False
             res['response']['text'] = f'{sessionStorage[user_id]["buying"].pop(0)}а можно найти на Яндекс.Маркете!'
-            res['response']['text'] += f'купи {sessionStorage[user_id]["buying"][0]}'
             res['response']['end_session'] = not (len(sessionStorage[user_id]["buying"]))
+            if not res['response']['ebd_session']:
+                res['response']['text'] += f'\nкупи {sessionStorage[user_id]["buying"][0]}'
+                res['response']['buttons'] = get_suggests(user_id)
+                sessionStorage[user_id]['suggests'] = [
+                    "Не хочу.",
+                    "Не буду.",
+                    "Отстань!",
+                ]
+
             return
 
     # Если нет, то убеждаем его купить слона!
