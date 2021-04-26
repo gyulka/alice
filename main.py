@@ -170,7 +170,7 @@ def handle_dialog(res, req):
                 res['response']['text'] = 'Ну и ладно!'
                 res['end_session'] = True
             elif req['request']['original_utterance'].lower() == 'помощь':
-                res['response']['text'] = 'Это текст помомщи. Будь смелее и продолжи общение.'
+                res['response']['text'] = 'удачи в игре, этот навык никому не нужен как в прочем-то и сама игра уже естьв оригинальной алисе...'
             else:
                 res['response']['text'] = 'Не понял ответа! Так да или нет?'
                 res['response']['buttons'] = [
@@ -220,6 +220,7 @@ def play_game(res, req):
                 'hide': True
             }
         ]
+        return
 
     else:
 
