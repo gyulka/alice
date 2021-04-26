@@ -10,9 +10,14 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
 cities = {
-    'москва': ['213044/7a2492eb4d097ff2ccd5', '1030494/f16da10181a264efa0de'],
+    'ро': ['213044/7a2492eb4d097ff2ccd5', '1030494/f16da10181a264efa0de'],
     'нью-йорк': ['1030494/27efce5abed41f6b82d4', '997614/09af94b94bb22d80b6b2'],
     'париж': ["997614/0a9e75a38c7cd21940b8", '965417/16aeee22583e485e468c']
+}
+countries = {
+    'москва': ['россия', 'рф'],
+    'нью-йорк': ['америка', 'сша'],
+    'париж': ['франция']
 }
 
 sessionStorage = {}
@@ -172,7 +177,7 @@ def play_game(res, req):
         sessionStorage[user_id]['city'] = city
 
         res['response']['card'] = {}
-        res['response']['text'] = 'Что это за город?'
+        res['response']['text'] = 'В какой стране этот город?'
         res['response']['card']['type'] = 'BigImage'
         res['response']['card']['title'] = 'Что это за город?'
         res['response']['card']['image_id'] = cities[city][attempt - 1]
