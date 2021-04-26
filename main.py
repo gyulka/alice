@@ -210,6 +210,7 @@ def play_game(res, req):
         sessionStorage[user_id]['city'] = city
 
         res['response']['card'] = {}
+        res['response']['text'] = 'Тогда сыграем!'
         res['response']['card']['type'] = 'BigImage'
         res['response']['card']['title'] = 'Что это за город?'
         res['response']['card']['image_id'] = cities[city][attempt - 1]
