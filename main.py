@@ -17,6 +17,7 @@ cities = {
 
 sessionStorage = {}
 
+
 def get_geo_info(city, type_info):
     url = "https://geocode-maps.yandex.ru/1.x/"
 
@@ -38,7 +39,6 @@ def get_geo_info(city, type_info):
         return \
             json['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['metaDataProperty'][
                 'GeocoderMetaData']['AddressDetails']['Country']['CountryName']
-
 
 
 def get_distance(p1, p2):
@@ -181,28 +181,39 @@ def play_game(res, req):
 
         city = sessionStorage[user_id]['city']
 
+        if city in sessionStorage[user_id]['guessed_cities']:
+
+            if req['request']['original_utterance'].lower() in countries[city]:
+
+                res['response']['text'] = 'Правильно! Сыграем еще?'
+
+                res['response']['buttons'] = [
+                    {
+                        "title": "Да",
+                        "hide": True
+                    },
+                    {
+                        "title": "Нет",
+                        "hide": True
+                    },
+                    {
+                        "title": "Покажи город на карте",
+                        "url": "https://yandex.ru/maps/?mode=search&text=%s" % (city),
+                        "hide": True
+                    }
+                ]
+
+                sessionStorage[user_id]['game_started'] = False
+                return
+            else:
+                res['response']['text'] = 'Это неправильная страна для города %s. Попробуй еще.' % (
+                    city.title())
+                return
+
         if get_city(req) == city:
 
-            res['response']['text'] = 'Правильно! Сыграем еще?'
-
-            res['response']['buttons'] = [
-                {
-                    "title": "Да",
-                    "hide": True
-                },
-                {
-                    "title": "Нет",
-                    "hide": True
-                },
-                {
-                    "title": "Покажи город на карте",
-                    "url": "https://yandex.ru/maps/?mode=search&text=%s" % (city),
-                    "hide": True
-                }
-            ]
-
+            res['response']['text'] = 'Правильно! А в какой стране этот город?'
             sessionStorage[user_id]['guessed_cities'].append(city)
-            sessionStorage[user_id]['game_started'] = False
             return
 
         else:
@@ -245,6 +256,7 @@ def get_first_name(req):
             else:
                 return None
     return None
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
