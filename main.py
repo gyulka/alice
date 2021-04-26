@@ -10,14 +10,9 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
 cities = {
-    'ро': ['213044/7a2492eb4d097ff2ccd5', '1030494/f16da10181a264efa0de'],
-    'нью-йорк': ['1030494/27efce5abed41f6b82d4', '997614/09af94b94bb22d80b6b2'],
-    'париж': ["997614/0a9e75a38c7cd21940b8", '965417/16aeee22583e485e468c']
-}
-countries = {
-    'москва': ['россия', 'рф'],
-    'нью-йорк': ['америка', 'сша'],
-    'париж': ['франция']
+    'россия': ['213044/7a2492eb4d097ff2ccd5', '1030494/f16da10181a264efa0de'],
+    'америка': ['1030494/27efce5abed41f6b82d4', '997614/09af94b94bb22d80b6b2'],
+    'франция': ["997614/0a9e75a38c7cd21940b8", '965417/16aeee22583e485e468c']
 }
 
 sessionStorage = {}
@@ -64,6 +59,13 @@ def get_distance(p1, p2):
 
     distance = radius * c
     return distance
+
+
+countries = {
+    'москва': ['россия', 'рф'],
+    'нью-йорк': ['америка', 'сша'],
+    'париж': ['франция']
+}
 
 
 @app.route('/post', methods=['POST'])
@@ -177,7 +179,7 @@ def play_game(res, req):
         sessionStorage[user_id]['city'] = city
 
         res['response']['card'] = {}
-        res['response']['text'] = 'В какой стране этот город?'
+        res['response']['text'] = 'Что это за город?'
         res['response']['card']['type'] = 'BigImage'
         res['response']['card']['title'] = 'Что это за город?'
         res['response']['card']['image_id'] = cities[city][attempt - 1]
@@ -261,6 +263,7 @@ def get_first_name(req):
             else:
                 return None
     return None
+
 
 
 if __name__ == '__main__':
