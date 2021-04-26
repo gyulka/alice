@@ -136,5 +136,6 @@ def get_cities(req):
 
 
 if __name__ == '__main__':
+    '''как оказалось я делал не помощь а алиса и карты'''
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
